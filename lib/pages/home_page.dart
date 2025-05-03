@@ -9,9 +9,19 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(),
       body: Center(
-        child: ElevatedButton(
-          onPressed: () => Navigator.pushNamed(context, AppRouter.account),
-          child: Text('Go to Account'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () => Navigator.pushNamed(context, AppRouter.account),
+              child: Text('Go to Account'),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () => Navigator.pushNamed(context, AppRouter.book),
+              child: Text('Go to Book'),
+            ),
+          ],
         ),
       ),
     );
