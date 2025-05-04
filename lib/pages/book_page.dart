@@ -9,7 +9,9 @@ import '../components/book_card.dart';
 import '../components/review_card.dart';
 
 class BookPage extends StatefulWidget {
-  const BookPage({super.key});
+  final Map<String, dynamic> bookData;
+
+  const BookPage({super.key, required this.bookData});
 
   @override
   _BookPageState createState() => _BookPageState();
@@ -23,7 +25,7 @@ class _BookPageState extends State<BookPage> {
   }
 
   // -- MOCKS START --
-  final Map<String, dynamic> book = {
+  Map<String, dynamic> book = {
     'coverImage': 'assets/images/COVER_BOOK.gif',
     'name': 'Book name',
     'author': 'Author name',
@@ -46,7 +48,7 @@ class _BookPageState extends State<BookPage> {
       },
     ]
   };
-  final List<Map<String, String>> myBooks = [
+  List<Map<String, String>> myBooks = [
     {'image': 'assets/images/COVER_BOOK.gif', 'author': 'Name Author'},
     {'image': 'assets/images/COVER_BOOK.gif', 'author': 'Another Author'},
     {'image': 'assets/images/COVER_BOOK.gif', 'author': 'Third Author'},
@@ -55,6 +57,9 @@ class _BookPageState extends State<BookPage> {
 
   @override
   Widget build(BuildContext context) {
+    book['image'] = widget.bookData['image'];
+    book['author'] = widget.bookData['author'];
+
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
@@ -173,18 +178,15 @@ class _BookPageState extends State<BookPage> {
                     const SizedBox(height: 12),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.35,
-                      child: Expanded(
-                          child: ListView(
-                            scrollDirection: Axis.horizontal,
-                            children: myBooks.map((book) {
-                              return BookCard(
-                                image: book['image']!,
-                                author: book['author']!,
-                                onRead: () {},
-                              );
-                            }).toList(),
-                          )
-                      ),
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: myBooks.map((book) {
+                          return BookCard(
+                            image: book['image']!,
+                            author: book['author']!
+                          );
+                        }).toList(),
+                      )
                     ),
                     const SizedBox(height: 12),
                     Column(
