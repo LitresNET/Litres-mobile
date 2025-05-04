@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class AppStyles {
   static const double borderRadius = 15.0;
-  
+
   static final ThemeData theme = ThemeData(
     primarySwatch: Colors.amber,
     visualDensity: VisualDensity.adaptivePlatformDensity,

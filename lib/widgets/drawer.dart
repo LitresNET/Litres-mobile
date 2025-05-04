@@ -1,7 +1,35 @@
 import 'package:flutter/material.dart';
 
-class CartDrawer extends StatelessWidget {
+class CartDrawer extends StatefulWidget {
   const CartDrawer({super.key});
+
+  @override
+  State<CartDrawer> createState() => _CartDrawerState();
+}
+
+class _CartDrawerState extends State<CartDrawer> {
+  // -- MOCKS START --
+  final List<Map<String, dynamic>> cartItems = [
+    {
+      'name': 'Book Name...',
+      'author': 'Author Name...',
+      'price': 30.00,
+      'quantity': 1,
+      'image': null, // Здесь может быть путь к изображению
+    },
+    {
+      'name': 'Another Book',
+      'author': 'Second Author',
+      'price': 30.00,
+      'quantity': 1,
+      'image': null,
+    },
+  ];
+  // -- MOCKS END --
+
+  double get subtotal {
+    return cartItems.fold(0, (sum, item) => sum + item['price'] * item['quantity']);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,15 +41,20 @@ class CartDrawer extends StatelessWidget {
           children: [
             // Header
             Container(
-              height: 80,
-              padding: const EdgeInsets.all(16),
-              color: Colors.white,
+              height: 94,
+              alignment: Alignment.bottomCenter,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Row(
                 children: [
-                  const Icon(Icons.arrow_back, color: Colors.black),
+                  IconButton(
+                    icon: const Icon(Icons.arrow_back, color: Colors.black),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
                   const SizedBox(width: 8),
-                  const Text(
-                    'Your Cart (02 items)',
+                  Text(
+                    'Your Cart (${cartItems.length} items)',
                     style: TextStyle(color: Colors.black, fontSize: 20),
                   ),
                 ],
@@ -31,10 +64,7 @@ class CartDrawer extends StatelessWidget {
             // Cart Items
             Expanded(
               child: ListView(
-                children: [
-                  _buildCartItem(),
-                  _buildCartItem(),
-                ],
+                children: cartItems.map((item) => _buildCartItem(item)).toList(),
               ),
             ),
             const Divider(),
@@ -51,15 +81,14 @@ class CartDrawer extends StatelessWidget {
                         style: TextStyle(fontSize: 18),
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 8),
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                         decoration: BoxDecoration(
                           color: Colors.yellow[700],
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        child: const Text(
-                          '\$60,00',
-                          style: TextStyle(fontSize: 18, color: Colors.black),
+                        child: Text(
+                          '\$${subtotal.toStringAsFixed(2)}',
+                          style: const TextStyle(fontSize: 18, color: Colors.black),
                         ),
                       ),
                     ],
@@ -93,12 +122,11 @@ class CartDrawer extends StatelessWidget {
     );
   }
 
-  Widget _buildCartItem() {
+  Widget _buildCartItem(Map<String, dynamic> item) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        border: Border.all(style: BorderStyle.none),
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(
@@ -108,62 +136,77 @@ class CartDrawer extends StatelessWidget {
             offset: const Offset(0, 3),
           ),
         ],
+        color: Colors.white,
       ),
       child: Row(
         children: [
-          // Placeholder for book image
+          // Image or placeholder
           Container(
             width: 60,
             height: 80,
             color: Colors.grey[300],
-            child: const Icon(Icons.book, size: 40),
+            child: item['image'] == null
+                ? const Icon(Icons.book, size: 40)
+                : Image.asset(item['image'], fit: BoxFit.cover),
           ),
           const SizedBox(width: 16),
-          // Book details
+          // Details
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
+                  children: [
                     Text(
-                      'Book Name...',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      item['name'],
+                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      '\$30,00',
-                      style: TextStyle(fontSize: 16, color: Colors.red),
+                      '\$${item['price'].toStringAsFixed(2)}',
+                      style: const TextStyle(fontSize: 16, color: Colors.red),
                     ),
                   ],
                 ),
                 const SizedBox(height: 4),
-                const Text(
-                  'Author Name...',
-                  style: TextStyle(fontSize: 14, color: Colors.grey),
+                Text(
+                  item['author'],
+                  style: const TextStyle(fontSize: 14, color: Colors.grey),
                 ),
               ],
             ),
           ),
           const SizedBox(width: 16),
-          // Quantity controls and remove button
+          // Quantity controls and delete
           Column(
             children: [
               Row(
                 children: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        if (item['quantity'] > 1) item['quantity']--;
+                      });
+                    },
                     icon: const Icon(Icons.remove_circle_outline),
                   ),
-                  const Text('01', style: TextStyle(fontSize: 16)),
+                  Text('${item['quantity']}', style: const TextStyle(fontSize: 16)),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        item['quantity']++;
+                      });
+                    },
                     icon: const Icon(Icons.add_circle_outline),
                   ),
                 ],
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  setState(() {
+                    cartItems.remove(item);
+                  });
+                },
                 icon: const Icon(Icons.delete_outline),
               ),
             ],

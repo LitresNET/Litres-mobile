@@ -11,7 +11,7 @@ class AccountPage extends StatefulWidget {
   const AccountPage({super.key});
 
   @override
-  _AccountPageState createState() => _AccountPageState();
+  State<AccountPage> createState() => _AccountPageState();
 }
 
 class _AccountPageState extends State<AccountPage> {
@@ -143,28 +143,23 @@ class _AccountPageState extends State<AccountPage> {
                   const SizedBox(height: 12),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.35,
-                    child: Expanded(
-                        child: ListView(
+                    child: ListView(
                       scrollDirection: Axis.horizontal,
                       children: [
                         BookCard(
                           image: 'assets/images/COVER_BOOK.gif',
-                          author: 'Name Author',
-                          onRead: () {},
+                          author: 'Name Author'
                         ),
                         BookCard(
                           image: 'assets/images/COVER_BOOK.gif',
                           author: 'Another Author',
-                          onRead: () {},
                         ),
                         BookCard(
                           image: 'assets/images/COVER_BOOK.gif',
                           author: 'Third Author',
-                          onRead: () {},
                         ),
                       ],
                     )
-                  ),
                   ),
                   Footer()
                 ],

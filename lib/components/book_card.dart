@@ -6,14 +6,8 @@ import '../components/rounded_image.dart';
 class BookCard extends StatelessWidget {
   final String image;
   final String author;
-  final VoidCallback onRead;
 
-  const BookCard({
-    super.key,
-    required this.image,
-    required this.author,
-    required this.onRead,
-  });
+  const BookCard({super.key, required this.image, required this.author});
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +18,10 @@ class BookCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          RoundedImage(
-            image: AssetImage(image),
-            width: 160,
-            height: 200,
-          ),
+          RoundedImage(image: AssetImage(image), width: 160, height: 200),
           const SizedBox(height: 8),
           SizedBox(
-            height: 50, // ✅ фиксированная высота
+            height: 50,
             child: DottedBorder(
               borderType: BorderType.RRect,
               radius: Radius.circular(AppStyles.borderRadius),
@@ -53,9 +43,14 @@ class BookCard extends StatelessWidget {
           const SizedBox(height: 8),
           SizedBox(
             width: double.infinity,
-            height: 36, // ✅ ограничиваем высоту кнопки
+            height: 42,
             child: ElevatedButton(
-              onPressed: onRead,
+              onPressed:
+                  () => Navigator.pushNamed(
+                    context,
+                    "/book",
+                    arguments: {'image': image, 'author': author},
+                  ),
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.zero,
                 shape: RoundedRectangleBorder(

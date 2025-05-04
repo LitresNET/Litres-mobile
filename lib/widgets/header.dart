@@ -9,10 +9,11 @@ class Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 80, // Стандартная высота для AppBar
+      height: 80,
       padding: const EdgeInsets.symmetric(horizontal: 16),
+      margin: const EdgeInsets.fromLTRB(0, 42, 0, 0),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center, // Важно! Центрируем по вертикали
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           IconButton(
             onPressed: () => Navigator.pushNamed(context, AppRouter.home),
@@ -32,8 +33,8 @@ class Header extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           IconButton(
-            onPressed: () {}, // тут можешь добавить переход в настройки
-            icon: const Icon(Icons.settings_outlined),
+            onPressed: () => Navigator.pushNamed(context, AppRouter.account), // тут можешь добавить переход в настройки
+            icon: const Icon(Icons.person),
           ),
         ],
       ),
