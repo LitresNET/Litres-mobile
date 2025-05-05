@@ -341,7 +341,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     const SizedBox(height: 4),
                     TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/signin');
+                        Navigator.pushNamed(context, '/signIn');
                       },
                       child: RichText(
                         text: const TextSpan(

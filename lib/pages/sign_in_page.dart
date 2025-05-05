@@ -3,45 +3,6 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-void main() {
-  runApp(const BookstoreApp());
-}
-
-class BookstoreApp extends StatelessWidget {
-  const BookstoreApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Bookstore',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: Colors.white, // Устанавливаем белый фон для Scaffold
-        inputDecorationTheme: InputDecorationTheme(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30.0), // Круглые углы
-            borderSide: const BorderSide(color: Color(0xFF3D3C3C)), // Цвет границы
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30.0), // Круглые углы
-            borderSide: const BorderSide(color: Color(0xFF3D3C3C)), // Цвет границы
-          ),
-          contentPadding: const EdgeInsets.symmetric(
-            vertical: 12.0,
-            horizontal: 16.0,
-          ),
-        ),
-        textTheme: TextTheme(
-          bodyLarge: TextStyle(color: Color(0xFF676767)), // Цвет текста
-          bodyMedium: TextStyle(color: Color(0xFF676767)), // Цвет текста
-        ),
-      ),
-      home: const SignInPage(),
-    );
-  }
-}
-
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
 
@@ -61,7 +22,6 @@ class _SignInPageState extends State<SignInPage> {
       _validationError = '';
     });
 
-    // Basic validation
     if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
       setState(() {
         _validationError = 'Please fill in all fields';
@@ -70,10 +30,8 @@ class _SignInPageState extends State<SignInPage> {
       return;
     }
 
-    // Simulate API call
     await Future.delayed(const Duration(seconds: 1));
 
-    // For demo purposes, just navigate after delay
     setState(() {
       _isLoading = false;
     });
@@ -81,7 +39,7 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   void _handleGoogleSignIn() async {
-    const googleAuthUrl = 'YOUR_LITRES_URL/signin/google'; // Replace with your URL
+    const googleAuthUrl = 'YOUR_LITRES_URL/signin/google';
     final uri = Uri.parse(googleAuthUrl);
 
     if (await canLaunchUrl(uri)) {
@@ -99,11 +57,11 @@ class _SignInPageState extends State<SignInPage> {
     final isMobile = screenWidth < 768;
 
     return Scaffold(
-      backgroundColor: Colors.white, // Устанавливаем белый фон для Scaffold
+      backgroundColor: Colors.white,
       body: Center(
         child: SingleChildScrollView(
           child: Container(
-            color: Colors.white, // Устанавливаем белый фон для Container
+            color: Colors.white,
             padding: const EdgeInsets.all(24.0),
             constraints: const BoxConstraints(maxWidth: 500),
             child: Column(
@@ -117,26 +75,26 @@ class _SignInPageState extends State<SignInPage> {
                     style: TextStyle(
                       fontSize: 28.0,
                       fontWeight: FontWeight.bold,
-                      fontFamily: 'Unica One', // Шрифт Unica One
-                      color: Color(0xFF676767), // Цвет текста
+                      fontFamily: 'Unica One',
+                      color: Color(0xFF676767),
                     ),
                   ),
                 ),
 
                 // Dotted Border around the form
                 DottedBorder(
-                  color: const Color(0xFF3D3C3C), // Цвет пунктирной линии
-                  strokeWidth: 2.0, // Толщина линии
-                  dashPattern: [6, 4], // Длина точек и промежутков
-                  borderType: BorderType.RRect, // Тип границы
-                  radius: const Radius.circular(30), // Круглые углы
-                  padding: const EdgeInsets.all(16.0), // Внутренний отступ
+                  color: const Color(0xFF3D3C3C),
+                  strokeWidth: 2.0,
+                  dashPattern: [6, 4],
+                  borderType: BorderType.RRect,
+                  radius: const Radius.circular(30),
+                  padding: const EdgeInsets.all(16.0),
                   child: Container(
-                    width: isMobile ? 300 : 600, // Увеличиваем ширину формы
+                    width: isMobile ? 300 : 600,
                     padding: const EdgeInsets.all(24.0),
                     decoration: BoxDecoration(
-                      color: Colors.white, // Белый фон
-                      borderRadius: BorderRadius.circular(30.0), // Круглые углы
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30.0),
                     ),
                     child: Column(
                       children: [
@@ -146,14 +104,14 @@ class _SignInPageState extends State<SignInPage> {
                           children: [
                             const Text(
                               'Enter your email',
-                              style: TextStyle(color: Color(0xFF676767)), // Цвет текста
+                              style: TextStyle(color: Color(0xFF676767)),
                             ),
                             const SizedBox(height: 5),
                             TextField(
                               controller: _emailController,
                               decoration: const InputDecoration(
                                 hintText: 'example@example.com',
-                                hintStyle: TextStyle(color: Color(0xFF676767)), // Цвет подсказки
+                                hintStyle: TextStyle(color: Color(0xFF676767)),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.all(Radius.circular(30.0)),
                                   borderSide: BorderSide(color: Color(0xFF3D3C3C)),
@@ -171,8 +129,8 @@ class _SignInPageState extends State<SignInPage> {
                                   horizontal: 16.0,
                                 ),
                               ),
-                              keyboardType: TextInputType.emailAddress, // Убедитесь, что это установлено
-                              style: TextStyle(color: Color(0xFF676767)), // Цвет текста
+                              keyboardType: TextInputType.emailAddress,
+                              style: TextStyle(color: Color(0xFF676767)),
                             ),
                           ],
                         ),
@@ -185,14 +143,14 @@ class _SignInPageState extends State<SignInPage> {
                           children: [
                             const Text(
                               'Enter your password',
-                              style: TextStyle(color: Color(0xFF676767)), // Цвет текста
+                              style: TextStyle(color: Color(0xFF676767)),
                             ),
                             const SizedBox(height: 5),
                             TextField(
                               controller: _passwordController,
                               decoration: const InputDecoration(
-                                hintText: '********',
-                                hintStyle: TextStyle(color: Color(0xFF676767)), // Цвет подсказки
+                                hintText: 'your password here',
+                                hintStyle: TextStyle(color: Color(0xFF676767)),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.all(Radius.circular(30.0)),
                                   borderSide: BorderSide(color: Color(0xFF3D3C3C)),
@@ -210,34 +168,34 @@ class _SignInPageState extends State<SignInPage> {
                                   horizontal: 16.0,
                                 ),
                               ),
-                              obscureText: true, // Убедитесь, что это установлено
-                              style: TextStyle(color: Color(0xFF676767)), // Цвет текста
+                              obscureText: true,
+                              style: TextStyle(color: Color(0xFF676767)),
                             ),
                           ],
                         ),
 
                         // Forgot Password
-                        const SizedBox(height: 5), // Отступ сверху
+                        const SizedBox(height: 5),
                         Align(
                           alignment: Alignment.center,
                           child: TextButton(
                             onPressed: () {},
                             child: const Text(
                               'Forgot password?',
-                              style: TextStyle(color: Colors.blue), // Цвет ссылки
+                              style: TextStyle(color: Colors.blue),
                             ),
                           ),
                         ),
-                        const SizedBox(height: 5), // Отступ снизу
+                        const SizedBox(height: 5),
 
                         // Sign In Button with Solid Border
                         Container(
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: const Color(0xFF3D3C3C), // Цвет границы
+                              color: const Color(0xFF3D3C3C),
                               width: 2.0,
                             ),
-                            borderRadius: BorderRadius.circular(30.0), // Круглые углы
+                            borderRadius: BorderRadius.circular(30.0),
                           ),
                           child: SizedBox(
                             width: double.infinity,
@@ -257,7 +215,7 @@ class _SignInPageState extends State<SignInPage> {
                                 children: [
                                   Text(
                                     'Sign in',
-                                    style: TextStyle(color: Color(0xFF676767)), // Цвет текста
+                                    style: TextStyle(color: Color(0xFF676767)),
                                   ),
                                   SizedBox(width: 8),
                                   Icon(Icons.arrow_forward, size: 18),
@@ -281,8 +239,6 @@ class _SignInPageState extends State<SignInPage> {
                   ),
                 ),
 
-
-
                 const SizedBox(height: 40),
 
                 // Google Button and Registration
@@ -303,9 +259,7 @@ class _SignInPageState extends State<SignInPage> {
                     ),
                     const SizedBox(height: 4),
                     TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/signup');
-                      },
+                      onPressed: () => Navigator.pushNamed(context, '/signUp'),
                       child: RichText(
                         text: const TextSpan(
                           style: TextStyle(color: Colors.black),

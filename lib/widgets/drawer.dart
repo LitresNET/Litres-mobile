@@ -98,7 +98,7 @@ class _CartDrawerState extends State<CartDrawer> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        // Logic for payment with Stripe
+                        Navigator.pushNamed(context, "/payment");
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.orange[800],
@@ -130,7 +130,7 @@ class _CartDrawerState extends State<CartDrawer> {
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
+            color: Colors.grey.withValues(alpha: 0.2),
             spreadRadius: 2,
             blurRadius: 5,
             offset: const Offset(0, 3),

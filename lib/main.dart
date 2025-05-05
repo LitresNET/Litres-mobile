@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Clean Architecture Navigation',
       theme: AppStyles.theme,
-      initialRoute: AppRouter.home,
+      initialRoute: AppRouter.signIn,
       onGenerateRoute: AppRouter.generateRoute,
       debugShowCheckedModeBanner: false,
     );
