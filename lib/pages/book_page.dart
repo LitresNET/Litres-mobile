@@ -182,6 +182,7 @@ class _BookPageState extends State<BookPage> {
                         scrollDirection: Axis.horizontal,
                         children: myBooks.map((book) {
                           return BookCard(
+                            name: book['name']!,
                             image: book['image']!,
                             author: book['author']!
                           );

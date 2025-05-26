@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import '../../services/graphql/account_queries.dart';
 
 abstract class AccountState extends Equatable {
   @override

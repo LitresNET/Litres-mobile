@@ -16,7 +16,7 @@ class _PaymentPageState extends State<PaymentPage> {
   final _amountController = TextEditingController();
   String _validationError = '';
   bool _isLoading = false;
-  double _lacking = 0.0; // Предположим, что это значение передается извне
+  final double _lacking = 0.0; // Предположим, что это значение передается извне
 
   Future<void> _handlePayment() async {
     setState(() {

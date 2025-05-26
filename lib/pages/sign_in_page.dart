@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../blocs/account/account_bloc.dart';
+import '../blocs/account/account_event.dart';
+import '../blocs/auth/auth_bloc.dart';
+import '../services/auth/auth_storage.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -18,25 +24,22 @@ class _SignInPageState extends State<SignInPage> {
 
   Future<void> _handleLogin() async {
     setState(() {
-      _isLoading = true;
       _validationError = '';
     });
 
-    if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text;
+
+    if (email.isEmpty || password.isEmpty) {
       setState(() {
         _validationError = 'Please fill in all fields';
-        _isLoading = false;
       });
       return;
     }
 
-    await Future.delayed(const Duration(seconds: 1));
-
-    setState(() {
-      _isLoading = false;
-    });
-    Navigator.pushReplacementNamed(context, '/account');
+    context.read<AuthBloc>().add(LoginEvent(email: email, password: password));
   }
+
 
   void _handleGoogleSignIn() async {
     const googleAuthUrl = 'YOUR_LITRES_URL/signin/google';
@@ -53,6 +56,30 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state is AuthLoading) {
+          setState(() => _isLoading = true);
+        } else {
+          setState(() => _isLoading = false);
+        }
+
+        if (state is AuthSuccess) {
+          AuthStorage().setUserId(state.userId);
+          AuthStorage().setUserToken(state.token);
+          context.read<AccountBloc>().add(LoadAccount());
+          Navigator.pushReplacementNamed(context, '/account');
+        }
+
+        if (state is AuthError) {
+          setState(() => _validationError = state.message);
+        }
+      },
+      child: _buildSignInForm(context),
+    );
+  }
+
+  Widget _buildSignInForm(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final isMobile = screenWidth < 768;
 
@@ -179,7 +206,11 @@ class _SignInPageState extends State<SignInPage> {
                         Align(
                           alignment: Alignment.center,
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text("nope")),
+                              );
+                            },
                             child: const Text(
                               'Forgot password?',
                               style: TextStyle(color: Colors.blue),

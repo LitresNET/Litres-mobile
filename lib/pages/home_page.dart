@@ -19,18 +19,33 @@ class _HomePageState extends State<HomePage> {
 
   // -- MOCKS START --
   final List<Map<String, String>> trendingBooks = [
-    {'image': 'assets/images/COVER_BOOK.gif', 'author': 'Name Author'},
-    {'image': 'assets/images/COVER_BOOK.gif', 'author': 'Another Author'},
-    {'image': 'assets/images/COVER_BOOK.gif', 'author': 'Third Author'},
     {
+      'name': 'name 1.1',
+      'image': 'assets/images/COVER_BOOK.gif',
+      'author': 'Name Author'
+    },
+    {
+      'name': 'name 2.1',
+      'image': 'assets/images/COVER_BOOK.gif',
+      'author': 'Another Author'
+    },
+    {
+      'name': 'name 3.1',
+      'image': 'assets/images/COVER_BOOK.gif',
+      'author': 'Third Author'
+    },
+    {
+      'name': 'name 1',
       'image': 'assets/images/COVER_BOOK.gif',
       'author': 'And another one Author',
     },
     {
+      'name': 'name 2',
       'image': 'assets/images/COVER_BOOK.gif',
       'author': 'And another two Author',
     },
     {
+      'name': 'name 3',
       'image': 'assets/images/COVER_BOOK.gif',
       'author': 'And another three Author',
     },
@@ -155,6 +170,7 @@ class _HomePageState extends State<HomePage> {
                               children:
                                   trendingBooks.map((book) {
                                     return BookCard(
+                                      name: book['name']!,
                                       image: book['image']!,
                                       author: book['author']!,
                                     );
