@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../blocs/account/account_bloc.dart';
 import '../../blocs/account/account_event.dart';
 import '../../blocs/account/account_state.dart';
+import '../components/chat.dart';
 import '../styles/app_styles.dart';
 import '../widgets/footer.dart';
 import '../components/book_card.dart';
