@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:litres_mobile/components/chat.dart';
 import 'package:litres_mobile/widgets/drawer.dart';
 import '../components/book_card.dart';
 import '../widgets/header.dart';
@@ -19,18 +20,33 @@ class _HomePageState extends State<HomePage> {
 
   // -- MOCKS START --
   final List<Map<String, String>> trendingBooks = [
-    {'image': 'assets/images/COVER_BOOK.gif', 'author': 'Name Author'},
-    {'image': 'assets/images/COVER_BOOK.gif', 'author': 'Another Author'},
-    {'image': 'assets/images/COVER_BOOK.gif', 'author': 'Third Author'},
     {
+      'name': 'name 1.1',
+      'image': 'assets/images/COVER_BOOK.gif',
+      'author': 'Name Author'
+    },
+    {
+      'name': 'name 2.1',
+      'image': 'assets/images/COVER_BOOK.gif',
+      'author': 'Another Author'
+    },
+    {
+      'name': 'name 3.1',
+      'image': 'assets/images/COVER_BOOK.gif',
+      'author': 'Third Author'
+    },
+    {
+      'name': 'name 1',
       'image': 'assets/images/COVER_BOOK.gif',
       'author': 'And another one Author',
     },
     {
+      'name': 'name 2',
       'image': 'assets/images/COVER_BOOK.gif',
       'author': 'And another two Author',
     },
     {
+      'name': 'name 3',
       'image': 'assets/images/COVER_BOOK.gif',
       'author': 'And another three Author',
     },
@@ -58,185 +74,191 @@ class _HomePageState extends State<HomePage> {
         child: Header(onCartPressed: _openCardDrawer),
       ),
       endDrawer: CartDrawer(),
-      body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 24.0,
-                vertical: 32.0,
-              ),
-              // Весь контент
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'What book are you\nlooking for?',
-                    style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+      body: Stack(
+        children: [
+          SafeArea(
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24.0,
+                    vertical: 32.0,
                   ),
-                  const SizedBox(height: 16),
-                  const Text(
-                    'Explore our catalog and find your next read.',
-                    style: TextStyle(fontSize: 16, color: Colors.black54),
-                  ),
-                  const SizedBox(height: 24),
-                  // Поиск
-                  Row(
+                  // Весь контент
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Поле ввода
-                      Expanded(
-                        child: TextField(
-                          controller: searchController,
-                          decoration: InputDecoration(
-                            hintText: 'Find any book!',
-                            filled: true,
-                            fillColor: Colors.grey[100],
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 18,
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.horizontal(
-                                left: Radius.circular(30),
-                              ),
-                              borderSide: BorderSide.none,
-                            ),
-                          ),
-                        ),
+                      const Text(
+                        'What book are you\nlooking for?',
+                        style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
                       ),
-
-                      // Кнопка-иконка
-                      Container(
-                        height: 60,
-                        width: 64,
-                        decoration: BoxDecoration(
-                          color: Colors.amber[600],
-                          borderRadius: BorderRadius.horizontal(
-                            right: Radius.circular(30),
+                      const SizedBox(height: 16),
+                      const Text(
+                        'Explore our catalog and find your next read.',
+                        style: TextStyle(fontSize: 16, color: Colors.black54),
+                      ),
+                      const SizedBox(height: 24),
+                      // Поиск
+                      Row(
+                        children: [
+                          // Поле ввода
+                          Expanded(
+                            child: TextField(
+                              controller: searchController,
+                              decoration: InputDecoration(
+                                hintText: 'Find any book!',
+                                filled: true,
+                                fillColor: Colors.grey[100],
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 18,
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.horizontal(
+                                    left: Radius.circular(30),
+                                  ),
+                                  borderSide: BorderSide.none,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                        child: IconButton(
-                          icon: const Icon(Icons.search),
-                          color: Colors.black87,
-                          onPressed:
-                              () => Navigator.pushNamed(
+
+                          // Кнопка-иконка
+                          Container(
+                            height: 60,
+                            width: 64,
+                            decoration: BoxDecoration(
+                              color: Colors.amber[600],
+                              borderRadius: BorderRadius.horizontal(
+                                right: Radius.circular(30),
+                              ),
+                            ),
+                            child: IconButton(
+                              icon: const Icon(Icons.search),
+                              color: Colors.black87,
+                              onPressed:
+                                  () => Navigator.pushNamed(
                                 context,
                                 "/search",
                                 arguments: {"search": searchController.text},
                               ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 64),
-
-                  // Trending Books
-                  Center(
-                    child: Column(
-                      children: [
-                        Text(
-                          'Trending Books',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 4),
-                        Text(
-                          '✧ Drag to explore',
-                          style: TextStyle(color: Colors.black54),
-                        ),
-                        SizedBox(height: 32),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.35,
-                          child: SizedBox(
-                            child: ListView(
-                              scrollDirection: Axis.horizontal,
-                              children:
+                        ],
+                      ),
+                      const SizedBox(height: 64),
+
+                      // Trending Books
+                      Center(
+                        child: Column(
+                          children: [
+                            Text(
+                              'Trending Books',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            SizedBox(height: 4),
+                            Text(
+                              '✧ Drag to explore',
+                              style: TextStyle(color: Colors.black54),
+                            ),
+                            SizedBox(height: 32),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.35,
+                              child: SizedBox(
+                                child: ListView(
+                                  scrollDirection: Axis.horizontal,
+                                  children:
                                   trendingBooks.map((book) {
                                     return BookCard(
+                                      name: book['name']!,
                                       image: book['image']!,
                                       author: book['author']!,
                                     );
                                   }).toList(),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  // Books by categories
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 16),
-                      const Text(
-                        'Books by categories',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      SizedBox(height: 4),
-                      Text(
-                        '✧ Click to explore',
-                        style: TextStyle(color: Colors.black54),
-                      ),
-                      const SizedBox(height: 16),
-
-                      // Список категорий
-                      ...categories.map((category) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 16),
-                          child: Column(
-                            children: [
-                              Container(
-                                width: double.infinity,
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 20,
-                                  horizontal: 24,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(color: Colors.black54),
-                                ),
-                                alignment: Alignment.centerLeft,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      category['name']!,
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.black54,
-                                      ),
-                                    ),
-                                    SizedBox(),
-                                    Text(
-                                      '${category['amount']!} books',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.black54,
-                                      ),
-                                    ),
-                                  ],
                                 ),
                               ),
-                            ],
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      // Books by categories
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 16),
+                          const Text(
+                            'Books by categories',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        );
-                      }),
+                          SizedBox(height: 4),
+                          Text(
+                            '✧ Click to explore',
+                            style: TextStyle(color: Colors.black54),
+                          ),
+                          const SizedBox(height: 16),
+
+                          // Список категорий
+                          ...categories.map((category) {
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 16),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    width: double.infinity,
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 20,
+                                      horizontal: 24,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(12),
+                                      border: Border.all(color: Colors.black54),
+                                    ),
+                                    alignment: Alignment.centerLeft,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          category['name']!,
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.black54,
+                                          ),
+                                        ),
+                                        SizedBox(),
+                                        Text(
+                                          '${category['amount']!} books',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.black54,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }),
+                        ],
+                      ),
                     ],
                   ),
-                ],
-              ),
-            );
-          },
-        ),
-      ),
+                );
+              },
+            ),
+          ),
+          SupportChatWidget()
+        ],
+      )
     );
   }
 }

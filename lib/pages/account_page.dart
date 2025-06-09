@@ -6,9 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../blocs/account/account_bloc.dart';
 import '../../blocs/account/account_event.dart';
 import '../../blocs/account/account_state.dart';
+import '../components/chat.dart';
 import '../styles/app_styles.dart';
 import '../widgets/footer.dart';
-import '../components/rounded_image.dart';
 import '../components/book_card.dart';
 
 class AccountPage extends StatefulWidget {
@@ -59,7 +59,11 @@ class _AccountPageState extends State<AccountPage> {
     );
   }
 
-  Widget _buildContent(dynamic account) {
+  Widget _buildContent(dynamic accounts) {
+    var account = accounts[0];
+    final subDate = DateTime.tryParse(account['subscriptionActiveUntil'] ?? '0001.01.01 00:00:00.00');
+    final isActive = subDate != null && subDate.isAfter(DateTime.now());
+
     return SingleChildScrollView(
       child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -68,8 +72,8 @@ class _AccountPageState extends State<AccountPage> {
             children: [
               // Subscription image card
               Center(
-                child: RoundedImage(
-                  image: AssetImage('assets/images/COVER_BOOK.gif'),
+                child: Image.network(
+                  account['avatarUrl'] ?? 'assets/images/COVER_BOOK.gif',
                   width: 200,
                   height: 200,
                 ),
@@ -100,19 +104,18 @@ class _AccountPageState extends State<AccountPage> {
                   padding: const EdgeInsets.symmetric(
                       vertical: 12, horizontal: 16),
                   child: Text(
-                    'Premium',
+                    account['subscription']['name'] ?? 'Unknown',
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ),
               ),
               const SizedBox(height: 16),
-
               // Deactivated button
               Center(
                 child: ElevatedButton.icon(
                   onPressed: () {},
                   icon: Icon(Icons.power_settings_new_outlined),
-                  label: Text('Deactivated'),
+                  label: Text(isActive ? 'Active' : 'Deactivated'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
                     foregroundColor: Colors.black,
@@ -137,10 +140,10 @@ class _AccountPageState extends State<AccountPage> {
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    '\$30.00',
+                    account['wallet'].toString() ?? '\$0.00',
                     style: Theme.of(context)
                         .textTheme
-                        .bodySmall
+                        .bodyLarge
                         ?.copyWith(color: Colors.deepOrange),
                   ),
                   Spacer(),
@@ -171,24 +174,19 @@ class _AccountPageState extends State<AccountPage> {
               ),
               const SizedBox(height: 12),
               SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.35,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      BookCard(
-                          image: 'assets/images/COVER_BOOK.gif',
-                          author: 'Name Author'
-                      ),
-                      BookCard(
-                        image: 'assets/images/COVER_BOOK.gif',
-                        author: 'Another Author',
-                      ),
-                      BookCard(
-                        image: 'assets/images/COVER_BOOK.gif',
-                        author: 'Third Author',
-                      ),
-                    ],
-                  )
+                height: MediaQuery.of(context).size.height * 0.35,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: account['purchased']?.length ?? 0,
+                  itemBuilder: (context, index) {
+                    final book = account['purchased'][index];
+                    return BookCard(
+                      name: book['name'] ?? 'Unknown',
+                      image: book['coverUrl'] ?? 'assets/images/COVER_BOOK.gif',
+                      author: book['author']['name'] ?? 'Unknown Author',
+                    );
+                  },
+                ),
               ),
               Footer()
             ],

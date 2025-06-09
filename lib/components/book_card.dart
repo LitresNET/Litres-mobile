@@ -6,8 +6,9 @@ import '../components/rounded_image.dart';
 class BookCard extends StatelessWidget {
   final String image;
   final String author;
+  final String name;
 
-  const BookCard({super.key, required this.image, required this.author});
+  const BookCard({super.key, required this.name, required this.image, required this.author});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,6 @@ class BookCard extends StatelessWidget {
           RoundedImage(image: AssetImage(image), width: 160, height: 200),
           const SizedBox(height: 8),
           SizedBox(
-            height: 50,
             child: DottedBorder(
               borderType: BorderType.RRect,
               radius: Radius.circular(AppStyles.borderRadius),
@@ -31,12 +31,23 @@ class BookCard extends StatelessWidget {
               child: Container(
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Text(
-                  'Author: $author',
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Name: $name',
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                    Text(
+                      'Author: $author',
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ],
+                )
               ),
             ),
           ),

@@ -1,17 +1,19 @@
 const String getAccountQuery = r"""
-  query GetAccount {
-    account {
-      id
+  query GetAccount($userId: Long!) {
+    account(userId: $userId) {
       name
+      avatarUrl
+      subscriptionActiveUntil
       subscription {
-        type
-        expiresAt
+        name
       }
-      balance
-      books {
+      wallet
+      purchased {
         id
-        title
-        author
+        name
+        author {
+          name
+        }
         coverUrl
       }
     }
